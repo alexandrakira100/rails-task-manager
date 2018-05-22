@@ -1,24 +1,41 @@
 class TasksController < ApplicationController
   def index
-    @tasks = Task.all
-  end
+   @tasks = Task.all
+ end
 
-  def show          # GET /restaurants/:id
-    @task = Task.find(params[:id])
-  end
+ def create
+   @task = Task.new(task_params)
+   @task.save
 
-  def new           # GET /restaurants/new
-  end
+   redirect_to tasks_path
+ end
 
-  def create        # POST /restaurants
-  end
+ def show
+   @task = Task.find(params[:id])
+ end
 
-  def edit          # GET /restaurants/:id/edit
-  end
+ def edit
+   @task = Task.find(params[:id])
+ end
 
-  def update        # PATCH /restaurants/:id
-  end
+ def update
+   @task = Task.find(params[:id])
+   @task.update(task_params)
 
-  def destroy       # DELETE /restaurants/:id
-  end
+   redirect_to task_path
+ end
+
+ def destroy
+   @task = Task.find(params[:id])
+   @task.destroy
+   redirect_to tasks_path
+ end
+
+
+ private
+
+ def task_params
+   params.require(:task).permit(:id, :title, :details, :completed)
+ end
+
 end
